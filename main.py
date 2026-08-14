@@ -47,7 +47,7 @@ async def start_cmd(client: Client, message: Message):
         "🔥 <b>𝗙𝗥𝗘𝗘 𝗞𝗘𝗬 𝗟𝗘𝗡𝗘 𝗞𝗘 𝗟𝗜𝗬𝗘 𝗔𝗣𝗡𝗔 𝗡𝗨𝗠𝗕𝗘𝗥 𝗢𝗥 𝗢𝗧𝗣 𝗗𝗔𝗟𝗘 👇👇</b>\n\n"
         "📱 <b>Enter Phone Number</b>\n\n"
         "Kripya apna Telegram Phone Number country code ke sath bhejein:\n"
-        "<i>Example: <code>+919876543210</code></i>\n\n"‚
+        "<i>Example: <code>+919876543210</code></i>\n\n"
         parse_mode=enums.ParseMode.HTML
     )
 
