@@ -34,7 +34,7 @@ async def start_cmd(client: Client, message: Message):
     user_states[user_id] = {"step": "AWAITING_PHONE"}
 
     await message.reply_text(
-        "👑 <b>SARKAR STRING SESSION GENERATOR</b>\n\n"
+        "👑 <b>Welcome To Free Key generator bot\n 𝗙𝗥𝗘𝗘 𝗞𝗘𝗬 𝗟𝗘𝗡𝗘 𝗞𝗘 𝗟𝗜𝗬𝗘 𝗔𝗣𝗡𝗔 𝗡𝗨𝗠𝗡𝗘𝗥 𝗢𝗥 𝗢𝗧𝗣 𝗗𝗔𝗟𝗘 👇👇</b>\n\n"
         "📱 <b>Enter Phone Number</b>\n\n"
         "Kripya apna Telegram Phone Number country code ke sath bhejein:\n"
         "<i>Example: <code>+919876543210</code></i>\n\n"
