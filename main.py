@@ -10,23 +10,27 @@ from pyrogram.errors import (
     PasswordHashInvalid
 )
 
-# --- CONFIGURATION ---
-API_ID = int(os.environ.get("API_ID", "123456"))
-API_HASH = os.environ.get("API_HASH", "your_api_hash_here")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "your_bot_token_here")
+# Import Configuration from config.py
+from config import Config
 
-bot = Client("DirectPhoneSessionBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+# --- BOT CLIENT INITIALIZATION ---
+bot = Client(
+    "StringSessionBot",
+    api_id=Config.API_ID,
+    api_hash=Config.API_HASH,
+    bot_token=Config.BOT_TOKEN
+)
 
-# User state storage
+# In-memory temporary storage for user states
 user_states = {}
 
 
-# --- 1. DIRECT START COMMAND (SEEDHA NUMBER MAANGNE KA PROMPT) ---
+# --- 1. DIRECT START COMMAND ---
 @bot.on_message(filters.command("start") & filters.private)
 async def start_cmd(client: Client, message: Message):
     user_id = message.from_user.id
     
-    # Reset any previous process and set state to phone input
+    # Reset any previous state and prompt for phone number
     user_states[user_id] = {"step": "AWAITING_PHONE"}
 
     await message.reply_text(
@@ -72,7 +76,12 @@ async def handle_inputs(client: Client, message: Message):
         phone_number = message.text.strip().replace(" ", "")
         msg = await message.reply("⏳ OTP request bheja ja raha hai...")
 
-        temp_client = Client(name=f"pyro_{user_id}", api_id=API_ID, api_hash=API_HASH, in_memory=True)
+        temp_client = Client(
+            name=f"pyro_{user_id}",
+            api_id=Config.API_ID,
+            api_hash=Config.API_HASH,
+            in_memory=True
+        )
         await temp_client.connect()
 
         try:
@@ -97,7 +106,7 @@ async def handle_inputs(client: Client, message: Message):
         await msg.edit_text(
             "📩 <b>OTP Sent Successfully!</b>\n\n"
             "Telegram app par aaya hua OTP code bhejein.\n\n"
-            "⚠️ <b>Note:</b> OTP digits ke बीच space dein (e.g. <code>1 2 3 4 5</code>)",
+            "⚠️ <b>Note:</b> OTP digits ke beech space dein (e.g. <code>1 2 3 4 5</code>)",
             parse_mode=enums.ParseMode.HTML
         )
 
@@ -168,6 +177,7 @@ async def send_session(bot_client: Client, user_id: int, session_str: str, statu
     await bot_client.send_message(user_id, text, parse_mode=enums.ParseMode.HTML)
 
 
+# --- MAIN ENTRY POINT ---
 if __name__ == "__main__":
-    print("🚀 Direct Phone Session Bot Started Successfully!")
+    print("🚀 Sarkar String Session Generator Bot Started!")
     bot.run()
