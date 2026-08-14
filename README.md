@@ -4,20 +4,11 @@ A powerful, fast, and secure **Telegram Pyrogram String Session Generator Bot** 
 
 ---
 
-## 🚀 One-Click Deploy to Heroku
+## 🚀 Deploy to Heroku
 
 Niche diye gaye button par click karke aap direct Heroku par is bot ko deploy kar sakte hain:
 
-[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?repo=https://github.com/Simple-Boy-1k/User-sesionbot)
-
----
-
-## ✨ Features
-
-* ⚡ **Direct Session Generation:** `/start` bhejte hi direct phone number input prompt.
-* 🔐 **100% Safe & Secure:** Session string bina kisi server storage ke direct user ke PM me deliver hoti hai.
-* 🛡️ **In-Memory Operations:** Credentials temporary memory me process hote hain aur instant delete ho jate hain.
-* ☁️ **Heroku Ready:** Built-in `app.json`, `Procfile`, aur `runtime.txt` support.
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/Simple-Boy-1k/User-sesionbot)
 
 ---
 
@@ -36,10 +27,10 @@ Heroku / VPS par deploy karte waqt ye variables set karein:
 ## 📁 Repository Structure
 
 ```text
-├── main.py          # Main bot logic & handlers
+├── main.py          # Main bot logic
 ├── config.py        # Environment variables configuration
 ├── requirements.txt # Python dependencies
-├── Procfile         # Heroku dyno configuration
+├── Procfile         # Heroku worker process
 ├── runtime.txt      # Python version specification
-├── app.json         # Heroku deployment button configuration
-└── README.md        # Project documentation
+├── app.json         # Heroku deployment configuration
+└── README.md        # Documentation
