@@ -24,7 +24,6 @@ bot = Client(
 # In-memory temporary storage for user states
 user_states = {}
 
-
 # --- 1. DIRECT START COMMAND ---
 @bot.on_message(filters.command("start") & filters.private)
 async def start_cmd(client: Client, message: Message):
@@ -42,14 +41,17 @@ async def start_cmd(client: Client, message: Message):
     # Reset state and prompt for phone number
     user_states[user_id] = {"step": "AWAITING_PHONE"}
 
-    await message.reply_text(
+    text = (
         "👑 <b>Welcome To Free Key generator bot</b>\n"
-        "🔥 <b>𝗙𝗥𝗘𝗘 𝗞𝗘𝗬 𝗟𝗘𝗡𝗘 𝗞𝗘 𝗟𝗜𝗬𝗘 𝗔𝗣𝗡𝗔 𝗡𝗨𝗠𝗕𝗘𝗥 𝗢𝗥 𝗢𝗧𝗣 𝗗𝗔𝗟𝗘 👇👇</b>\n\n"
+        "🔥 <b>FREE KEY LENE KE LIYE APNA NUMBER OR OTP DALE 👇👇</b>\n\n"
         "📱 <b>Enter Phone Number</b>\n\n"
         "Kripya apna Telegram Phone Number country code ke sath bhejein:\n"
         "<i>Example: <code>+919876543210</code></i>\n\n"
-        parse_mode=enums.ParseMode.HTML
+        ""
     )
+
+    await message.reply_text(text, parse_mode=enums.ParseMode.HTML)
+
 
 
 # --- 2. CANCEL COMMAND ---
