@@ -1,0 +1,26 @@
+{
+  "name": "Sarkar Session Generator Bot",
+  "description": "A Telegram String Session Generator Bot built with Pyrogram",
+  "env": {
+    "API_ID": {
+      "description": "Apna API ID daalein",
+      "required": true,
+      "value": "31551910"
+    },
+    "API_HASH": {
+      "description": "Apna API HASH daalein",
+      "required": true,
+      "value": "c2e8e7946d5e4ea947d44b674008f33e"
+    },
+    "BOT_TOKEN": {
+      "description": "Apna Bot Token daalein",
+      "required": true,
+      "value": ""
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
